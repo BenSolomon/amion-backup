@@ -3,42 +3,10 @@ library(lubridate); library(shinyBS); library(shinythemes)
 library(gsheet)
 
 source("helper.R")
-# # Data
-# amion_dir <- "/home/ben/amion"
-# 
-# available_schedules <- tibble(files = list.files(sprintf("%s/schedules", amion_dir), full.names = T)) %>%
-#   arrange(desc(files)) %>% 
-#   separate(files, into = c("schedules"), sep = "\\.", extra = "drop", remove = F) %>% 
-#   separate(schedules, into = c(NA, NA, "date", "time"), sep = "_") %>% 
-#   mutate(datetime = as.character(ymd_hms(paste(date, time, sep = "_"), tz = "America/Los_Angeles"))) %>% 
-#   mutate(datetime_string = paste(date, time, sep = "_")) %>% 
-#   arrange(datetime)
-#   
-# first_schedule <- available_schedules %>% head(1) %>% pull(datetime)
-# current_schedule <- available_schedules %>% tail(1) %>% pull(datetime)
-# all_schedules <- available_schedules %>% pull(datetime)
-# 
-# names <- read_rds(list.files(sprintf("%s/schedules", amion_dir), full.names = T)[1]) %>% 
-#   pull(Staff_Name) %>% 
-#   unique() %>% 
-#   sort()
-# 
-# change_points <- read_csv(sprintf("%s/changes/stpeds_changes.csv", amion_dir)) %>% 
-#   mutate(change_detected = as.character(change_detected)) %>% 
-#   pull(change_detected) %>% 
-#   unique()
-# 
-# name_key <- gsheet2tbl('https://docs.google.com/spreadsheets/d/1U-oSLmTJ2m0nGTCLrmNaq6X8H18sLoVorT1JrpKGOwU') %>% 
-#   select(names = `Name (don't change format)`, 
-#          email = `Stanford email`, 
-#          res_id = `Submit ID`,
-#          send_email = `Do you want email alerts of schedule changes?`) %>% 
-#   mutate(res_id = toupper(res_id)) %>% 
-#   right_join(tibble(names = names))
 
 ui <- fluidPage(
   theme = shinytheme("sandstone"),
-  tags$head(includeHTML("google-analytics.js")),
+  tags$head(includeHTML(google_analytics_js_path)),
   
   titlePanel("Amion Schedule Changes"),
   
@@ -86,8 +54,6 @@ ui <- fluidPage(
                    )
                  ),
                  
-
-                 
                  # Change display selection widget
                  # Changes which schedule update period is displayed
                  selectInput("changes", label = "Display changes from",
@@ -126,7 +92,6 @@ ui <- fluidPage(
     )
   )
 )
-
 
 server <- function(input, output) {
   source("helper.R")

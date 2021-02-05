@@ -3,6 +3,7 @@ source("secrets.R")
 amion_dir <- amion_dir
 googlesheet_url <- googlesheet_url
 master_code <- master_code
+google_analytics_js_path <- google_analytics_js_path
 
 # PATHS
 schedules_path <- sprintf("%s/schedules", amion_dir)
